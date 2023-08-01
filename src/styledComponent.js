@@ -64,3 +64,13 @@ export const CustomImg = styled.img`
   src: ${props => props.src};
   alt: ${props => props.alt};
 `
+
+export const ListContainer = styled.ul`
+  list-style-type: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 700px;
+`
+export const ListItem = styled.li``

@@ -1,7 +1,9 @@
 import {Component} from 'react'
 import Popup from 'reactjs-popup'
-
 import {RiCloseLine} from 'react-icons/ri'
+
+import Buttons from './components/Buttons'
+
 import {
   BgContainer,
   CustomContainer,
@@ -9,6 +11,7 @@ import {
   TextContent,
   CustomButton,
   CustomImg,
+  ListContainer,
 } from './styledComponent'
 import './App.css'
 
@@ -39,15 +42,13 @@ class App extends Component {
     opponentChoiceImgUrl: '',
   }
 
-  getResults = event => {
+  getResults = id => {
     const imgIndex = Math.floor(Math.random() * choicesList.length)
     const opponentChoiceImgUrl = choicesList[imgIndex].imageUrl
     const opponentId = choicesList[imgIndex].id
-    const yourChoiceImgUrl = event.target.src
-    const yourObject = choicesList.find(
-      eachItem => eachItem.imageUrl === yourChoiceImgUrl,
-    )
-    const yourId = yourObject.id
+    const yourId = id
+    const yourObject = choicesList.find(eachItem => eachItem.id === yourId)
+    const yourChoiceImgUrl = yourObject.imageUrl
     let result = ''
     // console.log(yourId)
     if (yourId === opponentId) {
@@ -134,58 +135,68 @@ class App extends Component {
   }
 
   renderButtons = () => (
-    <CustomContainer
-      display="flex"
-      justifyContent="center"
-      alignItems="center"
-      flexWrap="wrap"
-      marginTop="70"
-      width="600"
-    >
-      <CustomButton
-        border="none"
-        bgColor="transparent"
-        type="button"
-        onClick={this.getResults}
-        data-testid="rockButton"
-      >
-        <CustomImg
-          src="https://assets.ccbp.in/frontend/react-js/rock-paper-scissor/rock-image.png"
-          alt="ROCK"
-          height="250"
-          width="250"
+    <ListContainer>
+      {choicesList.map(eachChoice => (
+        <Buttons
+          choiceData={eachChoice}
+          key={eachChoice.id}
+          getYourChoice={this.getResults}
         />
-      </CustomButton>
-      <CustomButton
-        border="none"
-        bgColor="transparent"
-        type="button"
-        onClick={this.getResults}
-        data-testid="scissorsButton"
-      >
-        <CustomImg
-          src="https://assets.ccbp.in/frontend/react-js/rock-paper-scissor/scissor-image.png"
-          alt="SCISSORS"
-          height="250"
-          width="250"
-        />
-      </CustomButton>
-      <CustomButton
-        border="none"
-        bgColor="transparent"
-        type="button"
-        onClick={this.getResults}
-        data-testid="paperButton"
-      >
-        <CustomImg
-          src="https://assets.ccbp.in/frontend/react-js/rock-paper-scissor/paper-image.png"
-          alt="PAPER"
-          height="250"
-          width="250"
-        />
-      </CustomButton>
-    </CustomContainer>
+      ))}
+    </ListContainer>
   )
+  //     <CustomContainer
+  //       display="flex"
+  //       justifyContent="center"
+  //       alignItems="center"
+  //       flexWrap="wrap"
+  //       marginTop="70"
+  //       width="600"
+  //     >
+  //       <CustomButton
+  //         border="none"
+  //         bgColor="transparent"
+  //         type="button"
+  //         onClick={this.getResults}
+  //         data-testid="rockButton"
+  //       >
+  //         <CustomImg
+  //           src="https://assets.ccbp.in/frontend/react-js/rock-paper-scissor/rock-image.png"
+  //           alt="ROCK"
+  //           height="250"
+  //           width="250"
+  //         />
+  //       </CustomButton>
+  //       <CustomButton
+  //         border="none"
+  //         bgColor="transparent"
+  //         type="button"
+  //         onClick={this.getResults}
+  //         data-testid="scissorsButton"
+  //       >
+  //         <CustomImg
+  //           src="https://assets.ccbp.in/frontend/react-js/rock-paper-scissor/scissor-image.png"
+  //           alt="SCISSORS"
+  //           height="250"
+  //           width="250"
+  //         />
+  //       </CustomButton>
+  //       <CustomButton
+  //         border="none"
+  //         bgColor="transparent"
+  //         type="button"
+  //         onClick={this.getResults}
+  //         data-testid="paperButton"
+  //       >
+  //         <CustomImg
+  //           src="https://assets.ccbp.in/frontend/react-js/rock-paper-scissor/paper-image.png"
+  //           alt="PAPER"
+  //           height="250"
+  //           width="250"
+  //         />
+  //       </CustomButton>
+  //     </CustomContainer>
+  //   )
 
   renderRules = () => (
     <CustomContainer alignSelf="flex-end">
@@ -265,8 +276,8 @@ class App extends Component {
             <CustomImg
               src={yourChoiceImgUrl}
               alt="your choice"
-              height="200"
-              width="200"
+              height="250"
+              width="250"
             />
           </CustomContainer>
           <CustomContainer
@@ -281,8 +292,8 @@ class App extends Component {
             <CustomImg
               src={opponentChoiceImgUrl}
               alt="opponent choice"
-              height="200"
-              width="200"
+              height="250"
+              width="250"
             />
           </CustomContainer>
         </CustomContainer>
